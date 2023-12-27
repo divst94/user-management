@@ -1,19 +1,20 @@
 "use client"
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { error } from "console";
+import { useCallback, useEffect, useState, FormEvent } from "react";
 
 type Inputs = {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    password: string;
-    confirm_password: string;
+    first_name: string |null;
+    last_name: string |null;
+    email: string |null;
+    phone: string |null;
+    password: string |null;
+    confirm_password: string |null;
 
 }
-let defaultInputs = {
+let defaultInputs : Inputs= {
     first_name: " ",
     last_name: " ",
     email: " ",
@@ -32,24 +33,51 @@ export default function Signup() {
         formState: { errors },
     } = useForm<Inputs>({ defaultValues: { ...defaultInputs } })
 
-    const onSubmit = (data: any) => {
-       const payload={
-            first_name:data.first_name,
-            last_name:data.last_name,
-            phone:data.phone,
-            email:data.email,
-            password:data.password,
-            confirm_password:data.confirm_password,
-        }
-        console.log(data)
-        // data.then(() => {
-        //     if (data) {
-        //         router.push("/")
-        //     }
-        // }).catch((error) => { console.log(error) }
-        // )
+    const [isLoading, setIsLoading] = useState<any>(false)
 
+    async function onSubmit(event: any) {
+        event.preventDefault()
+        setIsLoading(true) // Set loading to true when the request starts
+        try {
+            const formData = new FormData(event.target.value)
+            const response = await fetch('/api/signup/', {
+                method: 'POST',
+                body: formData,
+            })
+            console.log(response);
+            
+
+            // Handle response if necessary
+            const data = await response
+            return data
+            // ...
+        } catch (error) {
+            // Handle error if necessary
+            console.error(error)
+        } finally {
+            setIsLoading(false) // Set loading to false when the request completes
+        }
     }
+    // const onSubmit = (data: any, e:any) => {
+    //     e.preventDefault()
+
+    //    const payload={
+    //         first_name:data.first_name,
+    //         last_name:data.last_name,
+    //         phone:data.phone,
+    //         email:data.email,
+    //         password:data.password,
+    //         confirm_password:data.confirm_password,
+    //     }
+    //     console.log(data)
+    // data.then(() => {
+    //     if (data) {
+    //         router.push("/")
+    //     }
+    // }).catch((error) => { console.log(error) }
+    // )
+
+    // }
 
     // console.log(watch("firstName"))
     return (
@@ -66,10 +94,10 @@ export default function Signup() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                        <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
                             <div>
                                 <label>First Name</label>
-                                <input type="text" placeholder="first name" {...register(`first_name`, { required: "This field is required", })} 
+                                <input type="text" placeholder="first name" {...register(`first_name`, { required: "This field is required", })}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"/>
@@ -77,7 +105,7 @@ export default function Signup() {
                                 {errors.first_name && <span>This field is required</span>}
                             </div>
                             <div>
-                            <label>Last Name</label>
+                                <label>Last Name</label>
                                 <input type="text" placeholder="Last Name" {...register(`last_name`, { required: "This field is required", })}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
@@ -123,8 +151,8 @@ export default function Signup() {
                                 {errors.confirm_password && <span>This field is required</span>}
                             </div>
 
-                            <button type="submit" className="w-full text-white bg-blue hover:bg-blue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                Create an account
+                            <button type="submit" disabled={isLoading} className="w-full text-white bg-blue hover:bg-blue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                {isLoading ? 'Loading...' : 'Create an account'}
                             </button>
 
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
