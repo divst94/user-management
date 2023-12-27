@@ -13,6 +13,9 @@ export default function Home() {
   }
   return (
     <div className='flex flex-col item-center justify-center  mx-auto mt-20'>
+      <h1 className='text-center text-3xl p-4'>
+        User Management List
+      </h1>
     <table className="table-auto border-separate border-spacing-2 border border-slate-500 hover:border-spacing-2 px-2 py-2">
   <thead>
     <tr>
