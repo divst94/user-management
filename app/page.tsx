@@ -20,6 +20,7 @@ export default function Home() {
       <th>Name</th>
       <th>Email</th>
       <th>Mobile No.</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -31,6 +32,10 @@ export default function Home() {
             <td>{data.first_name} {data.last_name} </td>
             <td>{data.email}</td>
             <td>{data.phone}</td>
+            <td>
+              <CreateIcon />
+              <DeleteIcon />
+            </td>
           </tr>
           );
 
