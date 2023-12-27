@@ -12,80 +12,34 @@ export default function Home() {
 
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            My Profile
-            {/* <span onClick={ editUser }> */}
-              <CreateIcon fontSize="small"
-                className='cursor-pointer'
-              />
-            {/* </span> */}
-            {/* <span onClick={ deleteUser } > */}
-              <DeleteIcon
-                fontSize="small"
-                className='cursor-pointer'
-              />
-            {/* </span> */}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            Details and informations about this user.
-          </p>
-        </div>
-        <div className="border-t border-gray-200">
-          {
-            userData.map((data: any, id: any) => {
-              return (
-                <dl key={id}>
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Full name
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {data.first_name} {data.last_name}
-                    </dd>
-                  </div>
-                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Best techno
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      React JS
-                    </dd>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Email address
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {data.email}
-                    </dd>
-                  </div>
-                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">
-                      Contact
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {data.phone}
-                    </dd>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">
-                      About
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      To get social media testimonials like these, keep your customers engaged with your social media accounts by posting regularly yourself
-                    </dd>
-                  </div>
-                </dl>
-              );
+    <div className='flex flex-col item-center justify-center  mx-auto mt-20'>
+    <table className="table-auto border-separate border-spacing-2 border border-slate-500 hover:border-spacing-2 px-2 py-2">
+  <thead>
+    <tr>
+    <th>Sr. No.</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Mobile No.</th>
+    </tr>
+  </thead>
+  <tbody>
+  {
+        userData.map((data: any, id: any) => {
+          return (
+            <tr key={id} className='text-center'>
+              <td>{data.id}</td>
+            <td>{data.first_name} {data.last_name} </td>
+            <td>{data.email}</td>
+            <td>{data.phone}</td>
+          </tr>
+          );
 
-            })
-          }
-
-        </div>
-      </div>
-    </main>
+        })
+      }
+    
+  </tbody>
+</table>
+     
+    </div>
   )
 }
