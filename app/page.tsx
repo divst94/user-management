@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import userData from "./userData";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,6 +10,7 @@ export default function Home() {
   const deleteUser = (event: any) => {
 
   }
+
   return (
     <div className='flex flex-col item-center justify-center  mx-auto mt-20'>
       <h1 className='text-center text-3xl p-4'>
