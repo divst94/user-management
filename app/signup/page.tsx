@@ -1,13 +1,13 @@
 "use client"
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { error } from "console";
 import { useCallback, useEffect, useState, FormEvent } from "react";
+import axios from "axios";
 
 type Inputs = {
-    first_name: string |null;
-    last_name: string |null;
+    name: string |null;
     email: string |null;
     phone: string |null;
     password: string |null;
@@ -15,8 +15,7 @@ type Inputs = {
 
 }
 let defaultInputs : Inputs= {
-    first_name: " ",
-    last_name: " ",
+    name: " ",
     email: " ",
     phone: " ",
     password: " ",
@@ -24,7 +23,7 @@ let defaultInputs : Inputs= {
 }
 
 export default function Signup() {
-    // const router = useRouter();
+    const router = useRouter();
 
     const {
         register,
@@ -58,6 +57,30 @@ export default function Signup() {
             setIsLoading(false) // Set loading to false when the request completes
         }
     }
+  
+// useEffect(  async () => {
+//     const res = await fetch("/api/signup", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ dataObj: { hey: "ho" } }),
+//       });
+//       // For the first example (sending plain text):
+//       const data = await res.text();
+//       // For the second one (sending a JSON):
+//       const apiData = await res.json();
+// })
+
+    // useEffect(async ()=>{
+    //  let data = await fetch ('/api/signup/', {
+    //     method: 'POST',
+    //     body: formData,
+    // });
+    // const apiData = data.json;
+    // console.log(apiData)
+
+    // }, [])
     // const onSubmit = (data: any, e:any) => {
     //     e.preventDefault()
 
@@ -96,36 +119,28 @@ export default function Signup() {
                         </h1>
                         <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
                             <div>
-                                <label>First Name</label>
-                                <input type="text" placeholder="first name" {...register(`first_name`, { required: "This field is required", })}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
+                                <label>Full Name</label>
+                                <input type="text" placeholder="first name" {...register(`name`, { required: "This field is required", })}
+                                    className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"/>
                                 {/* errors will return when field validation fails  */}
-                                {errors.first_name && <span>This field is required</span>}
+                                {errors.name && <span>This field is required</span>}
                             </div>
-                            <div>
-                                <label>Last Name</label>
-                                <input type="text" placeholder="Last Name" {...register(`last_name`, { required: "This field is required", })}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
-                                block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
-                                dark:focus:border-blue-500"/>
-                                {/* errors will return when field validation fails  */}
-                                {errors.last_name && <span>This field is required</span>}
-                            </div>
-                            <div>
+                           
+                            {/* <div>
                                 <label>Mobile No.</label>
                                 <input type="number" placeholder="Mobile number" {...register(`phone`, { required: "This field is required", })}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
+                                    className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"/>
                                 {/* errors will return when field validation fails  */}
-                                {errors.phone && <span>This field is required</span>}
-                            </div>
+                                {/* {errors.phone && <span>This field is required</span>}
+                            </div> */} 
                             <div>
                                 <label>Email</label>
                                 <input type="email" {...register(`email`, { required: "This field is required", })} placeholder="example@email.com"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
+                                    className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"/>
                                 {/* errors will return when field validation fails  */}
@@ -134,7 +149,7 @@ export default function Signup() {
                             <div>
                                 <label>Password</label>
                                 <input type="password" {...register(`password`, { required: "This field is required", })} placeholder="password"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
+                                    className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"/>
                                 {/* errors will return when field validation fails  */}
@@ -143,7 +158,7 @@ export default function Signup() {
                             <div>
                                 <label>Confirm Password</label>
                                 <input type="password" {...register(`confirm_password`, { required: "This field is required", })} placeholder="confirm password"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
+                                    className="bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 
                                 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
                                 dark:focus:border-blue-500"
                                 />

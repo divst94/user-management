@@ -12,7 +12,7 @@ export default function Home() {
   }
 
   return (
-    <div className='flex flex-col item-center justify-center  mx-auto mt-20'>
+    <div className='flex flex-col item-center justify-center  mx-auto mt-20 background-pattern-square'>
       <h1 className='text-center text-3xl p-4'>
         User Management List
       </h1>
